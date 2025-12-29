@@ -29,6 +29,8 @@ jobs:
           git clone https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/jsanz994/jsanz994.github.io pages-repo
           cp -r build/web/* pages-repo/
           cd pages-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Deploy Flutter Web"
           git push
