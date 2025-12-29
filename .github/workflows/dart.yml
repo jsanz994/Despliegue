@@ -1,0 +1,34 @@
+name: Build Flutter Web and Deploy to Pages Repo
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        run: flutter build web --release --base-href "/"
+
+      - name: Deploy to Pages repository
+        run: |
+          git clone https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/jsanz994/jsanz994.github.io pages-repo
+          cp -r build/web/* pages-repo/
+          cd pages-repo
+          git add .
+          git commit -m "Deploy Flutter Web"
+          git push
