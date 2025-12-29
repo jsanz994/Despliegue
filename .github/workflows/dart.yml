@@ -2,7 +2,7 @@ name: Build Flutter Web and Deploy to Pages Repo
 
 on:
   push:
-    branches: ["main"]
+    branches: ["flutterflow"]
 
 jobs:
   build-and-deploy:
