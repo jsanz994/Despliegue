@@ -1,9 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
-import 'home_page_widget.dart' show HomePageWidget;
+import 'pagina2_widget.dart' show Pagina2Widget;
 import 'package:flutter/material.dart';
 
-class HomePageModel extends FlutterFlowModel<HomePageWidget> {
+class Pagina2Model extends FlutterFlowModel<Pagina2Widget> {
   @override
   void initState(BuildContext context) {}
 
