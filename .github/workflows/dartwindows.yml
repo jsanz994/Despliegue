@@ -1,0 +1,59 @@
+name: Build Flutter Windows and Deploy to Desktop Repo
+
+on:
+  push:
+    branches: ["flutterflow"]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Enable Windows desktop + install deps
+        run: |
+          flutter config --enable-windows-desktop
+          flutter doctor -v
+          flutter pub get
+
+      - name: Build Windows (Release)
+        run: flutter build windows --release
+
+      # Empaquetamos el resultado en un ZIP para subirlo al repo destino
+      - name: Create ZIP
+        shell: pwsh
+        run: |
+          $out = "build/windows/x64/runner/Release"
+          if (!(Test-Path $out)) { throw "Build output not found: $out" }
+          Compress-Archive -Path "$out\*" -DestinationPath "windows-release.zip" -Force
+
+      - name: Deploy ZIP to jsanz994/desktop
+        shell: bash
+        run: |
+          set -e
+
+          git clone https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/jsanz994/desktop desktop-repo
+
+          # Limpia todo menos el .git
+          rm -rf desktop-repo/*
+
+          # Copia el ZIP al repo destino
+          cp windows-release.zip desktop-repo/
+
+          cd desktop-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "Deploy Windows build"
+          git push
+          
