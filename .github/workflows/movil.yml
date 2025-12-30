@@ -39,8 +39,6 @@ jobs:
 
       - name: Deploy to jsanz994/mobile
         run: |
-          set -e
-
           git clone https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/jsanz994/movil mobile-repo
           rm -rf mobile-repo/*
           cp out/app-release.apk mobile-repo/ || true
