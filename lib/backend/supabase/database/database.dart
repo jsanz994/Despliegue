@@ -5,6 +5,5 @@ export '../supabase.dart';
 export 'row.dart';
 export 'table.dart';
 
-export 'tables/usuario_asignatura.dart';
-export 'tables/usuario.dart';
-export 'tables/asignatura.dart';
+export 'tables/carrera.dart';
+export 'tables/usuarios.dart';
