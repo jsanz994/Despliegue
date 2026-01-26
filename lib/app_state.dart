@@ -30,4 +30,62 @@ class FFAppState extends ChangeNotifier {
   void updateCurrentUserStruct(Function(UsuarioStruct) updateFn) {
     updateFn(_currentUser);
   }
+
+  List<String> _listaNombres = ['Container 1', 'Container 2'];
+  List<String> get listaNombres => _listaNombres;
+  set listaNombres(List<String> value) {
+    _listaNombres = value;
+  }
+
+  void addToListaNombres(String value) {
+    listaNombres.add(value);
+  }
+
+  void removeFromListaNombres(String value) {
+    listaNombres.remove(value);
+  }
+
+  void removeAtIndexFromListaNombres(int index) {
+    listaNombres.removeAt(index);
+  }
+
+  void updateListaNombresAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    listaNombres[index] = updateFn(_listaNombres[index]);
+  }
+
+  void insertAtIndexInListaNombres(int index, String value) {
+    listaNombres.insert(index, value);
+  }
+
+  List<String> _listaApellidos = ['Final 1', 'Final 2'];
+  List<String> get listaApellidos => _listaApellidos;
+  set listaApellidos(List<String> value) {
+    _listaApellidos = value;
+  }
+
+  void addToListaApellidos(String value) {
+    listaApellidos.add(value);
+  }
+
+  void removeFromListaApellidos(String value) {
+    listaApellidos.remove(value);
+  }
+
+  void removeAtIndexFromListaApellidos(int index) {
+    listaApellidos.removeAt(index);
+  }
+
+  void updateListaApellidosAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    listaApellidos[index] = updateFn(_listaApellidos[index]);
+  }
+
+  void insertAtIndexInListaApellidos(int index, String value) {
+    listaApellidos.insert(index, value);
+  }
 }
