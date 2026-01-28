@@ -47,6 +47,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: EjemploWidget.routeName,
           path: EjemploWidget.routePath,
           builder: (context, params) => EjemploWidget(),
+        ),
+        FFRoute(
+          name: DTOsWidget.routeName,
+          path: DTOsWidget.routePath,
+          builder: (context, params) => DTOsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

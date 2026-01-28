@@ -1,7 +1,10 @@
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_pdf_viewer.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/upload_data.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,9 +83,55 @@ class _EjemploWidgetState extends State<EjemploWidget> {
                 alignment: AlignmentDirectional(0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    _model.pdfs = await actions.generarPdf();
+                    _model.alum = await actions.getCarreras();
+                    _model.listUsuarios = (_model.alum!
+                            .toList()
+                            .map<UsuarioStruct?>(UsuarioStruct.maybeFromMap)
+                            .toList() as Iterable<UsuarioStruct?>)
+                        .withoutNulls
+                        .toList()
+                        .cast<UsuarioStruct>();
+                    safeSetState(() {});
+                    _model.pdfs = await actions.generarPdf(
+                      _model.listUsuarios.toList(),
+                    );
                     _model.pdfState = true;
                     safeSetState(() {});
+                    {
+                      safeSetState(
+                          () => _model.isDataUploading_uploadData0p9 = true);
+                      var selectedUploadedFiles = <FFUploadedFile>[];
+                      var selectedFiles = <SelectedFile>[];
+                      var downloadUrls = <String>[];
+                      try {
+                        selectedUploadedFiles = _model.pdfs!.bytes!.isNotEmpty
+                            ? [_model.pdfs!]
+                            : <FFUploadedFile>[];
+                        selectedFiles = selectedFilesFromUploadedFiles(
+                          selectedUploadedFiles,
+                          storageFolderPath: 'pdfprueba',
+                        );
+                        downloadUrls = await uploadSupabaseStorageFiles(
+                          bucketName: 'pdfs',
+                          selectedFiles: selectedFiles,
+                        );
+                      } finally {
+                        _model.isDataUploading_uploadData0p9 = false;
+                      }
+                      if (selectedUploadedFiles.length ==
+                              selectedFiles.length &&
+                          downloadUrls.length == selectedFiles.length) {
+                        safeSetState(() {
+                          _model.uploadedLocalFile_uploadData0p9 =
+                              selectedUploadedFiles.first;
+                          _model.uploadedFileUrl_uploadData0p9 =
+                              downloadUrls.first;
+                        });
+                      } else {
+                        safeSetState(() {});
+                        return;
+                      }
+                    }
 
                     safeSetState(() {});
                   },

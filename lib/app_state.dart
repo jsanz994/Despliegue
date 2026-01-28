@@ -21,16 +21,6 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  UsuarioStruct _currentUser = UsuarioStruct();
-  UsuarioStruct get currentUser => _currentUser;
-  set currentUser(UsuarioStruct value) {
-    _currentUser = value;
-  }
-
-  void updateCurrentUserStruct(Function(UsuarioStruct) updateFn) {
-    updateFn(_currentUser);
-  }
-
   List<String> _listaNombres = ['Container 1', 'Container 2'];
   List<String> get listaNombres => _listaNombres;
   set listaNombres(List<String> value) {
@@ -87,5 +77,64 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInListaApellidos(int index, String value) {
     listaApellidos.insert(index, value);
+  }
+
+  List<UsuarioDTOStruct> _currentUsers = [];
+  List<UsuarioDTOStruct> get currentUsers => _currentUsers;
+  set currentUsers(List<UsuarioDTOStruct> value) {
+    _currentUsers = value;
+  }
+
+  void addToCurrentUsers(UsuarioDTOStruct value) {
+    currentUsers.add(value);
+  }
+
+  void removeFromCurrentUsers(UsuarioDTOStruct value) {
+    currentUsers.remove(value);
+  }
+
+  void removeAtIndexFromCurrentUsers(int index) {
+    currentUsers.removeAt(index);
+  }
+
+  void updateCurrentUsersAtIndex(
+    int index,
+    UsuarioDTOStruct Function(UsuarioDTOStruct) updateFn,
+  ) {
+    currentUsers[index] = updateFn(_currentUsers[index]);
+  }
+
+  void insertAtIndexInCurrentUsers(int index, UsuarioDTOStruct value) {
+    currentUsers.insert(index, value);
+  }
+
+  List<UsuarioCarreaDTOStruct> _usuarioscarreras = [];
+  List<UsuarioCarreaDTOStruct> get usuarioscarreras => _usuarioscarreras;
+  set usuarioscarreras(List<UsuarioCarreaDTOStruct> value) {
+    _usuarioscarreras = value;
+  }
+
+  void addToUsuarioscarreras(UsuarioCarreaDTOStruct value) {
+    usuarioscarreras.add(value);
+  }
+
+  void removeFromUsuarioscarreras(UsuarioCarreaDTOStruct value) {
+    usuarioscarreras.remove(value);
+  }
+
+  void removeAtIndexFromUsuarioscarreras(int index) {
+    usuarioscarreras.removeAt(index);
+  }
+
+  void updateUsuarioscarrerasAtIndex(
+    int index,
+    UsuarioCarreaDTOStruct Function(UsuarioCarreaDTOStruct) updateFn,
+  ) {
+    usuarioscarreras[index] = updateFn(_usuarioscarreras[index]);
+  }
+
+  void insertAtIndexInUsuarioscarreras(
+      int index, UsuarioCarreaDTOStruct value) {
+    usuarioscarreras.insert(index, value);
   }
 }

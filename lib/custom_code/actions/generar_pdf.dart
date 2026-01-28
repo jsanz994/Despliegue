@@ -12,15 +12,38 @@ import 'dart:typed_data';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-Future<FFUploadedFile> generarPdf() async {
+Future<FFUploadedFile> generarPdf(List<UsuarioStruct> alumnos) async {
   // Add your function code here!
   final pdf = pw.Document();
 
   pdf.addPage(
     pw.Page(
+      pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
-        return pw.Center(
-          child: pw.Text("Hola, este es mi PDF sencillo!"),
+        return pw.Padding(
+          padding: const pw.EdgeInsets.all(32),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                "Listado de Alumnos",
+                style: pw.TextStyle(
+                  fontSize: 28,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.SizedBox(height: 20),
+              pw.ListView.builder(
+                itemCount: alumnos.length,
+                itemBuilder: (context, index) {
+                  return pw.Text(
+                    "- ${alumnos[index]}",
+                    style: pw.TextStyle(fontSize: 16),
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
     ),

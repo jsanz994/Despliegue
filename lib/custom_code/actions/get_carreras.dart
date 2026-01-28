@@ -11,6 +11,6 @@ import 'package:flutter/material.dart';
 Future<dynamic> getCarreras() async {
   // Add your function code here!
   final supabase = Supabase.instance.client;
-  var res = supabase.from('carrera').select();
+  var res = supabase.from('usuarios').select();
   return res;
 }
