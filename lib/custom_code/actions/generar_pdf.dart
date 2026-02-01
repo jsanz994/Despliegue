@@ -18,32 +18,126 @@ Future<FFUploadedFile> generarPdf(List<UsuarioStruct> alumnos) async {
 
   pdf.addPage(
     pw.Page(
-      pageFormat: PdfPageFormat.a4,
-      build: (pw.Context context) {
-        return pw.Padding(
-          padding: const pw.EdgeInsets.all(32),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text(
-                "Listado de Alumnos",
+      margin: const pw.EdgeInsets.all(24),
+      build: (context) {
+        return pw.Column(
+          children: [
+            // =======================
+            // ENCABEZADO CON COLOR
+            // =======================
+            pw.Container(
+              width: double.infinity,
+              padding: pw.EdgeInsets.all(16),
+              color: PdfColors.blue700,
+              child: pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    "Reporte de Alumnos",
+                    style: pw.TextStyle(
+                      color: PdfColors.white,
+                      fontSize: 26,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Container(
+                    width: 60,
+                    height: 60,
+                    //child: pw.Image(image),
+                  ),
+                ],
+              ),
+            ),
+
+            pw.SizedBox(height: 20),
+
+            // SEPARADOR
+            pw.Container(
+              height: 2,
+              width: double.infinity,
+              color: PdfColors.blue700,
+            ),
+
+            pw.SizedBox(height: 20),
+
+            // SUBTÍTULO
+            pw.Align(
+              alignment: pw.Alignment.centerLeft,
+              child: pw.Text(
+                "Listado actualizado:",
                 style: pw.TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: pw.FontWeight.bold,
+                  color: PdfColors.blue800,
                 ),
               ),
-              pw.SizedBox(height: 20),
-              pw.ListView.builder(
-                itemCount: alumnos.length,
-                itemBuilder: (context, index) {
-                  return pw.Text(
-                    "- ${alumnos[index]}",
-                    style: pw.TextStyle(fontSize: 16),
-                  );
-                },
+            ),
+
+            pw.SizedBox(height: 12),
+
+            // =========================================
+            // TABLA PROFESIONAL DE ALUMNOS
+            // =========================================
+            pw.Table(
+              border: pw.TableBorder.all(color: PdfColors.grey600),
+              columnWidths: {
+                0: pw.FlexColumnWidth(1),
+                1: pw.FlexColumnWidth(3),
+              },
+              children: [
+                pw.TableRow(
+                  decoration: pw.BoxDecoration(color: PdfColors.grey300),
+                  children: [
+                    pw.Padding(
+                      padding: pw.EdgeInsets.all(6),
+                      child: pw.Text(
+                        "Nº",
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: pw.EdgeInsets.all(6),
+                      child: pw.Text(
+                        "Nombre del Alumno",
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                ...List.generate(
+                  alumnos.length,
+                  (i) => pw.TableRow(
+                    children: [
+                      pw.Padding(
+                        padding: pw.EdgeInsets.all(6),
+                        child: pw.Text("${i + 1}"),
+                      ),
+                      pw.Padding(
+                        padding: pw.EdgeInsets.all(6),
+                        child: pw.Text(alumnos[i].nombre),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            pw.Spacer(),
+
+            // =======================
+            // PIE DE PÁGINA
+            // =======================
+            pw.Align(
+              alignment: pw.Alignment.centerRight,
+              child: pw.Text(
+                "Documento generado automáticamente • © 2026",
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  color: PdfColors.grey700,
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     ),
