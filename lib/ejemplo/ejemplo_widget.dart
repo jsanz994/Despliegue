@@ -109,7 +109,7 @@ class _EjemploWidgetState extends State<EjemploWidget> {
                             : <FFUploadedFile>[];
                         selectedFiles = selectedFilesFromUploadedFiles(
                           selectedUploadedFiles,
-                          storageFolderPath: 'pdfprueba',
+                          storageFolderPath: 'pdfs/pdfprueba',
                         );
                         downloadUrls = await uploadSupabaseStorageFiles(
                           bucketName: 'pdfs',
